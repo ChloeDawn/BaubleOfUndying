@@ -9,7 +9,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -144,7 +143,6 @@ public final class BaubleOfUndying {
             GlStateManager.rotate(180, 0, 0, 1);
             GlStateManager.translate(0.0, -0.5, hasChestplate(player) ? -0.8 : -0.5);
 
-            mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             mc.getRenderItem().renderItem(totem, transform);
         }
 
