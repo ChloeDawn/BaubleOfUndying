@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'https://files.minecraftforge.net/maven' }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+def modVersion= '1.0.0'
+def mcfVersion= '1.12.2-14.23.2.2619'
+def mcpMappings= 'snapshot_20180226'
+def jeiVersion= '1.12.2:4.8.5.158'
+
+version = "1.12-$modVersion"
+group = 'net.sleeplessdev.undying'
+archivesBaseName = 'BaubleOfUndying'
+sourceCompatibility = 1.8
+
+minecraft {
+    version = mcfVersion
+    mappings = mcpMappings
+    runDir = 'run'
+    replaceIn 'BaubleOfUndying.java'
+    replace '%VERSION%', modVersion
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    maven { url 'http://dvs1.progwml6.com/files/maven' }
+}
+
+dependencies {
+    deobfCompile 'com.github.Azanor:Baubles:master-SNAPSHOT'
+    runtime "mezz.jei:jei_$jeiVersion"
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info', 'pack.mcmeta'
+        expand 'version': modVersion
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info', 'pack.mcmeta'
+    }
+}
