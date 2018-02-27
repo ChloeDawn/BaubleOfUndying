@@ -113,10 +113,13 @@ public final class BaubleOfUndying {
             for (int slot : BaubleType.CHARM.getValidSlots()) {
                 IBaublesItemHandler handler = BaublesApi.getBaublesHandler(player);
                 if (handler.getStackInSlot(slot).isEmpty()) {
-                    player.playSound(SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 1.0F, 1.0F);
-                    handler.insertItem(slot, stack.copy(), false);
-                    stack.setCount(0);
-                    return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+                    ItemStack remainder = handler.insertItem(slot, stack.copy(), true);
+                    if (remainder.getCount() < stack.getCount()) {
+                        player.playSound(SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 1.0F, 1.0F);
+                        handler.insertItem(slot, stack.copy(), false);
+                        stack.setCount(remainder.getCount());
+                        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+                    }
                 }
             }
 
