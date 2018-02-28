@@ -60,10 +60,16 @@ public final class TotemBaubleItem extends Item implements IBauble, IRenderBaubl
     @Override
     @SideOnly(Side.CLIENT)
     public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType type, float partialTicks) {
+        int slot = BaublesApi.isBaubleEquipped(player, Items.TOTEM_OF_UNDYING);
+
+        if (slot <= -1) return;
+
         Minecraft mc = FMLClientHandler.instance().getClient();
-        ItemStack totem = new ItemStack(Items.TOTEM_OF_UNDYING);
-        boolean chest = !player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).isEmpty();
-        switch (this.type) { // TODO Rendering states
+        ItemStack totem = BaublesApi.getBaublesHandler(player).getStackInSlot(slot);
+
+        if (!(totem.getItem() instanceof IBauble)) return;
+
+        switch (((IBauble) totem.getItem()).getBaubleType(totem)) { // TODO Rendering states
             case HEAD:
                 if (type != RenderType.HEAD) return;
                 break;
@@ -78,6 +84,7 @@ public final class TotemBaubleItem extends Item implements IBauble, IRenderBaubl
             case BODY:
             case CHARM:
                 if (type != RenderType.BODY) return;
+                boolean chest = !player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).isEmpty();
                 IRenderBauble.Helper.rotateIfSneaking(player);
                 GlStateManager.scale(0.25, 0.25, 0.25);
                 GlStateManager.rotate(180, 0, 0, 1);
