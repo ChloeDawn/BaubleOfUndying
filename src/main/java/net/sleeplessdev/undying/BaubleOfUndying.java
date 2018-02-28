@@ -90,7 +90,7 @@ public final class BaubleOfUndying {
         BaublesApi.getBaublesHandler(player).extractItem(slot, 1, false);
         event.setCanceled(true);
     }
-    
+
     @Config(modid = BaubleOfUndying.ID)
     @Mod.EventBusSubscriber(modid = BaubleOfUndying.ID)
     public static final class ModConfig {
