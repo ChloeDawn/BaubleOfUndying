@@ -60,37 +60,31 @@ public final class TotemBaubleItem extends Item implements IBauble, IRenderBaubl
     @Override
     @SideOnly(Side.CLIENT)
     public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType renderType, float partialTicks) {
-        int slot = BaublesApi.isBaubleEquipped(player, Items.TOTEM_OF_UNDYING);
-
         Minecraft mc = FMLClientHandler.instance().getClient();
         ItemStack totem = new ItemStack(Items.TOTEM_OF_UNDYING);
 
-        for (BaubleType type : BaubleType.values()) {
-            if (!type.hasSlot(slot)) continue;
-            switch (type) { // TODO Rendering states
-                case HEAD:
-                    if (renderType != RenderType.HEAD) return;
-                    break;
-                case AMULET:
-                case RING:
-                    if (renderType != RenderType.BODY) return;
-                    break;
-                case BELT:
-                    if (renderType != RenderType.BODY) return;
-                    break;
-                case TRINKET:
-                case BODY:
-                case CHARM:
-                    if (renderType != RenderType.BODY) return;
-                    boolean chest = !player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).isEmpty();
-                    IRenderBauble.Helper.rotateIfSneaking(player);
-                    GlStateManager.scale(0.25, 0.25, 0.25);
-                    GlStateManager.rotate(180, 0, 0, 1);
-                    GlStateManager.translate(0.0, -0.5, chest ? -0.8 : -0.5);
-                    mc.getRenderItem().renderItem(totem, ItemCameraTransforms.TransformType.NONE);
-                    break;
-            }
-            return;
+        if (type == BaubleType.HEAD && renderType != RenderType.HEAD) return;
+        if (type != BaubleType.HEAD && renderType != RenderType.BODY) return;
+
+        switch (type) { // TODO Rendering states
+            case HEAD:
+                break;
+            case AMULET:
+            case RING:
+                break;
+            case BELT:
+                break;
+            case TRINKET:
+                break;
+            case BODY:
+            case CHARM:
+                boolean chest = !player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).isEmpty();
+                IRenderBauble.Helper.rotateIfSneaking(player);
+                GlStateManager.scale(0.25, 0.25, 0.25);
+                GlStateManager.rotate(180, 0, 0, 1);
+                GlStateManager.translate(0.0, -0.5, chest ? -0.8 : -0.5);
+                mc.getRenderItem().renderItem(totem, ItemCameraTransforms.TransformType.NONE);
+                break;
         }
     }
 
